@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="전통 명리학을 바탕으로 나의 사주와 운세를 알아보는 AI 사주 연구소" />
+<title>운명연구소 | 나의 사주 알아보기</title>
+<style>
+:root{--bg:#090a0e;--panel:#12141b;--gold:#d8b56d;--gold2:#f2d99b;--muted:#a9a6a0;--line:rgba(216,181,109,.22);--white:#f6f1e7}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -15%,#292112 0%,#111117 38%,var(--bg) 75%);color:var(--white);font-family:system-ui,-apple-system,"Noto Sans KR",sans-serif;min-height:100vh}
+.wrap{max-width:1050px;margin:auto;padding:0 22px}.nav{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
+.brand{font-weight:800;letter-spacing:.08em;color:var(--gold2);font-size:18px}.nav small{color:var(--muted);letter-spacing:.08em}
+.hero{text-align:center;padding:78px 0 42px}.eyebrow{color:var(--gold);letter-spacing:.24em;font-size:11px;font-weight:700}.hero h1{font-family:Georgia,serif;font-weight:500;font-size:clamp(38px,7vw,66px);line-height:1.15;margin:18px 0 15px;letter-spacing:-.04em}.hero h1 span{color:var(--gold2)}.hero p{color:#c3beb3;line-height:1.8;margin:0 auto;max-width:570px;font-size:14px}
+.ornament{color:var(--gold);font-size:22px;margin:26px 0 0;opacity:.85}
+.panel{max-width:720px;margin:0 auto 72px;background:linear-gradient(145deg,rgba(25,26,32,.97),rgba(14,15,20,.98));border:1px solid var(--line);border-radius:22px;padding:30px;box-shadow:0 24px 80px #0008}
+.panel-head{text-align:center;margin-bottom:25px}.panel-head h2{font-size:20px;margin:0 0 7px}.panel-head p{color:var(--muted);font-size:12px;margin:0}
+label{display:block;color:#ddd5c5;font-size:13px;margin:0 0 9px}.field{margin-bottom:20px}
+input,select{width:100%;height:48px;border-radius:10px;border:1px solid #38342c;background:#0b0d12;color:var(--white);padding:0 13px;font-size:14px;outline:none}
+input:focus,select:focus{border-color:var(--gold)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.birthgrid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:10px}
+.radio-row{display:flex;gap:9px}.radio{flex:1}.radio input{display:none}.radio span{height:44px;border:1px solid #38342c;background:#0b0d12;border-radius:9px;display:grid;place-items:center;color:#c6c0b5;font-size:13px;cursor:pointer}.radio input:checked+span{border-color:var(--gold);background:#2b2417;color:var(--gold2)}
+.checks{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.check{border:1px solid #38342c;border-radius:10px;padding:12px;color:#d7d0c2;font-size:13px;display:flex;align-items:center;gap:9px;background:#0b0d12}.check input{width:16px;height:16px;accent-color:#c9a65e}
+.btn{width:100%;border:0;border-radius:11px;background:linear-gradient(110deg,#b88c42,#f0d99b,#bd934b);color:#17130c;font-weight:800;font-size:15px;height:54px;margin-top:8px;cursor:pointer;box-shadow:0 8px 26px #b88c4233}.btn:hover{filter:brightness(1.08)}.notice{color:#8f8b83;font-size:11px;line-height:1.7;text-align:center;margin:15px 4px 0}
+.result{display:none;margin-top:22px;padding:18px;border:1px solid var(--line);border-radius:12px;background:#0b0d12}.result h3{color:var(--gold2);margin:0 0 8px}.result p{color:#c9c3b8;font-size:13px;line-height:1.8;margin:0}
+footer{border-top:1px solid var(--line);padding:24px 0 34px;text-align:center;color:#77736c;font-size:11px;line-height:1.8}
+@media(max-width:600px){.hero{padding:58px 0 32px}.panel{padding:22px 17px;margin-bottom:48px}.grid{grid-template-columns:1fr}.birthgrid{grid-template-columns:1fr 1fr 1fr}.nav{height:64px}.nav small{font-size:10px}.checks{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="nav"><div class="brand">✦ 운명연구소</div><small>SAJU · INSIGHT</small></header>
+<main>
+<section class="hero">
+<div class="eyebrow">THE ART OF SAJU</div>
+<h1>나의 운명을<br><span>깊이 들여다보다</span></h1>
+<p>태어난 순간의 시간과 기운을 바탕으로<br>나를 이해하는 전통 명리학의 여정을 시작해 보세요.</p>
+<div class="ornament">✧　☾　✧</div>
+</section>
+<section class="panel">
+<div class="panel-head"><h2>나의 사주 정보 입력</h2><p>정확한 분석을 위해 태어난 날짜와 시간을 입력해 주세요.</p></div>
+<form id="sajuForm">
+<div class="field"><label for="name">이름 <span style="color:#8f8b83">(선택)</span></label><input id="name" type="text" placeholder="이름 또는 별명" maxlength="30"></div>
+<div class="field"><label>생년월일 기준</label><div class="radio-row">
+<label class="radio"><input type="radio" name="calendar" value="양력" checked><span>양력</span></label>
+<label class="radio"><input type="radio" name="calendar" value="음력"><span>음력</span></label>
+<label class="radio"><input type="radio" name="calendar" value="음력 윤달"><span>음력 윤달</span></label>
+</div></div>
+<div class="field"><label>생년월일</label><div class="birthgrid">
+<select id="year" required><option value="">연도</option></select>
+<select id="month" required><option value="">월</option></select>
+<select id="day" required><option value="">일</option></select>
+</div></div>
+<div class="grid">
+<div class="field"><label for="time">태어난 시간</label><select id="time"><option value="">모름</option>
+<option>자시 (23:00~00:59)</option><option>축시 (01:00~02:59)</option><option>인시 (03:00~04:59)</option><option>묘시 (05:00~06:59)</option><option>진시 (07:00~08:59)</option><option>사시 (09:00~10:59)</option><option>오시 (11:00~12:59)</option><option>미시 (13:00~14:59)</option><option>신시 (15:00~16:59)</option><option>유시 (17:00~18:59)</option><option>술시 (19:00~20:59)</option><option>해시 (21:00~22:59)</option></select></div>
+<div class="field"><label for="gender">성별 <span style="color:#8f8b83">(선택)</span></label><select id="gender"><option value="">선택 안 함</option><option>남성</option><option>여성</option></select></div>
+</div>
+<div class="field"><label>궁금한 운세</label><div class="checks">
+<label class="check"><input type="checkbox" name="topic" value="종합 사주" checked> 종합 사주</label>
+<label class="check"><input type="checkbox" name="topic" value="재물운"> 재물운</label>
+<label class="check"><input type="checkbox" name="topic" value="연애·결혼운"> 연애·결혼운</label>
+<label class="check"><input type="checkbox" name="topic" value="직업운"> 직업운</label>
+</div></div>
+<button class="btn" type="submit">나의 사주 분석 시작하기　✦</button>
+<p class="notice">현재는 화면 시안입니다. 실제 사주 계산 및 AI 해석 기능은 연결 전이며, 입력한 정보는 서버로 전송되지 않습니다.</p>
+<div class="result" id="result" role="status"><h3>입력 화면 테스트 완료</h3><p id="resultText"></p></div>
+</form>
+</section>
+</main>
+<footer>운명연구소 · 전통 명리학 기반 자기이해 콘텐츠<br>사주 해석은 문화·오락 및 참고 목적으로 제공되며 미래를 보장하거나 전문적인 조언을 대체하지 않습니다.</footer>
+</div>
+<script>
+const year=document.getElementById('year'),month=document.getElementById('month'),day=document.getElementById('day');
+for(let y=new Date().getFullYear();y>=1900;y--){let o=document.createElement('option');o.value=y;o.textContent=y+'년';year.append(o)}
+for(let m=1;m<=12;m++){let o=document.createElement('option');o.value=m;o.textContent=m+'월';month.append(o)}
+function fillDays(){let old=day.value;day.innerHTML='<option value="">일</option>';let n=year.value&&month.value?new Date(Number(year.value),Number(month.value),0).getDate():31;for(let d=1;d<=n;d++){let o=document.createElement('option');o.value=d;o.textContent=d+'일';day.append(o)}if(old&&Number(old)<=n)day.value=old}
+year.addEventListener('change',fillDays);month.addEventListener('change',fillDays);
+document.getElementById('sajuForm').addEventListener('submit',e=>{e.preventDefault();if(!year.value||!month.value||!day.value){alert('생년월일을 모두 선택해 주세요.');return}let topics=[...document.querySelectorAll('input[name="topic"]:checked')].map(x=>x.value).join(', ')||'선택 없음';let cal=document.querySelector('input[name="calendar"]:checked').value;document.getElementById('resultText').textContent=`${document.getElementById('name').value||'고객'}님 · ${cal} ${year.value}년 ${month.value}월 ${day.value}일 · 태어난 시간: ${document.getElementById('time').value||'모름'} · 관심 분야: ${topics}. 입력 기능이 정상 작동합니다. 실제 사주 풀이 기능은 다음 제작 단계에서 연결합니다.`;document.getElementById('result').style.display='block';document.getElementById('result').scrollIntoView({behavior:'smooth',block:'nearest'})});
+</script>
+</body></html>
